@@ -1,0 +1,4 @@
+-LED code
+-error flags
+-thermistor and LDR
+-data transmission? gps?
