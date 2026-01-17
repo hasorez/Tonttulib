@@ -9,23 +9,32 @@ void setup() {
     if (status != 1) {
         Serial.print("Initialization failed with code: ");
         Serial.println(status);
-        while(true);
+        while (true);
     }
-    tLib.led.begin();
+
     tLib.led.blinkFast();
+
     Serial.println("All sensors initialized!");
+    Serial.println("Motors armed (1000 us).");
 }
 
 void loop() {
-    float temp = tLib.readTemperature();
-    float ldrV = tLib.readLDRVoltage();
+    float temp = tLib.thermistor.readCelsius();
+    float ldrV = tLib.ldr.readVoltage();
 
-    Serial.print("Temperature: "); Serial.print(temp, 2); Serial.println(" °C");
-    Serial.print("LDR Voltage: "); Serial.print(ldrV, 2); Serial.println(" V");
+    Serial.print("Temperature: ");
+    Serial.print(temp, 2);
+    Serial.println(" °C");
+
+    Serial.print("LDR Voltage: ");
+    Serial.print(ldrV, 2);
+    Serial.println(" V");
 
     // --- BMP388 barometer ---
     float pressure = tLib.baro.readPressure();
-    Serial.print("Pressure: "); Serial.print(pressure); Serial.println(" Pa");
+    Serial.print("Pressure: ");
+    Serial.print(pressure);
+    Serial.println(" Pa");
 
     // --- IMU ---
     float ax, ay, az;
@@ -33,13 +42,19 @@ void loop() {
     tLib.imu.readAccel(ax, ay, az);
     tLib.imu.readGyro(gx, gy, gz);
 
-    Serial.print("Accel X: "); Serial.print(ax); Serial.print(" g, ");
-    Serial.print("Y: "); Serial.print(ay); Serial.print(" g, ");
-    Serial.print("Z: "); Serial.println(az);
+    Serial.print("Accel X: ");
+    Serial.print(ax);
+    Serial.print(" g, Y: ");
+    Serial.print(ay);
+    Serial.print(" g, Z: ");
+    Serial.println(az);
 
-    Serial.print("Gyro X: "); Serial.print(gx); Serial.print(" deg/s, ");
-    Serial.print("Y: "); Serial.print(gy); Serial.print(" deg/s, ");
-    Serial.print("Z: "); Serial.println(gz);
+    Serial.print("Gyro X: ");
+    Serial.print(gx);
+    Serial.print(" deg/s, Y: ");
+    Serial.print(gy);
+    Serial.print(" deg/s, Z: ");
+    Serial.println(gz);
 
     // --- Flash ---
     uint8_t buffer[256];
@@ -48,7 +63,14 @@ void loop() {
         Serial.println(buffer[0], HEX);
     }
 
-    // must be called every loop
+    // --- Motors ---
+    // Example: idle / disarmed
+    tLib.motors.set(1, 1100);
+    tLib.motors.set(2, 1100);
+    tLib.motors.set(3, 1100);
+    tLib.motors.set(4, 1100);
+
+    // Must be called every loop
     tLib.update();
 
     Serial.println("-----------------------");

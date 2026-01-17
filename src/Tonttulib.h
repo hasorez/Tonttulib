@@ -3,43 +3,45 @@
     a custom PCB designed for the Finnish 2026 Cansat competition.
   Created by Oskar Huotari, 2026
 */
-
-#ifndef Tonttulib_h
-#define Tonttulib_h
+#pragma once
 
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
 
+#include "Constants.h"
+
+// Sensors
 #include "sensors/BMP388.h"
 #include "sensors/IMU.h"
-#include "sensors/Flash.h"
+#include "sensors/Thermistor.h"
+#include "sensors/LDR.h"
 
-#include "LED.h"
+// Actuators
+#include "actuators/LED.h"
+#include "actuators/Motors.h"
+
+// Storage
+#include "storage/Flash.h"
 
 class Tonttulib
 {
 public:
   Tonttulib();
 
-  // Initialize all sensors
-  // Returns 1 if successful, -1 if baro fails, -2 if IMU fails, -3 if flash fails
   int init(TwoWire &wire = Wire, SPIClass &spi = SPI);
-
-  float readTemperature(); // reads thermistor
-  float readLDRVoltage();  // reads LDR voltage (0-3.3V)
-
   void update();
 
-  // Sensors
+  // Modules
   BMP388 baro;
   IMU imu;
-  Flash flash;
+  Thermistor thermistor;
+  LDR ldr;
+  Motors motors;
   Led led;
+  Flash flash;
 
 private:
   TwoWire *_i2c;
   SPIClass *_spi;
 };
-
-#endif

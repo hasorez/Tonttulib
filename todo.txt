@@ -1,4 +1,4 @@
 -Teensy 4.0 eeprom
 -error flags
--thermistor calibration and circuit math
+-thermistor calibration
 -data transmission? gps?
