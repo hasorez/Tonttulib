@@ -43,7 +43,7 @@ It provides easy access to the board’s sensors, actuators, and storage devices
 ---
 ## PCB design
 - 4 layer PCB that's designed to turn teensy 4.0 into a full fledged custom flight controller
-- For more info see, [GitHub Repository](https://github.com/hasorez/Tonttuboard-PCB)
+- For more info see, [PCB Repository](https://github.com/hasorez/Tonttuboard-PCB)
 
 ---
 
